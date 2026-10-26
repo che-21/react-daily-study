@@ -1,8 +1,14 @@
-const Header = () => {
+import  "./Body.css"
+
+const Header = ()=>{
   return(
     <header>
-      <h1 style={{backgroundColor: "#f00", color: "#0f0", fontSize: "30"}}>header</h1>
-      <h2>subHeader</h2>
+      <h1>My Site</h1>
+        <nav>
+          <a href="#">홈</a>
+          <a href="#">소개</a>
+          <a href="#">연락처</a>
+        </nav>
     </header>
   )
 }
