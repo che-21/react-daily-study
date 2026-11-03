@@ -1,8 +1,9 @@
 import "./Editor.css"
-import { useState } from "react"
-import { getFormattedDate } from "../util/"
+import { useState, useEffect } from "react"
+import { emotionList, getFormattedDate } from "../util/"
 import Button from "./Button"
 import { useNavigate } from "react-router-dom"
+import EmotionItem from "./EmotionItem"
 
 const Editor = ( {initData, onSubmit} ) => {
     const navigate = useNavigate()
@@ -25,8 +26,20 @@ const Editor = ( {initData, onSubmit} ) => {
     }
 
     const handleGoBack = () => {
-        navigate(-1)
+        navigate(-1)    // 브라우저의 뒤로가기 이벤트가 1회 동작
     }
+
+    const handelChangeEmotion = (emotionId) => {
+        setState({ ...state, emotionId })
+    }
+
+    useEffect( () => {
+        if(initData) {
+            setState({...initData,
+                     date: getFormattedDate(new Date( parseInt(initData.date)))
+                    })
+        }
+    }, [initData]) // initData가 넘어오면 앞의 함수를 실행
 
     return(
         <>
@@ -41,6 +54,11 @@ const Editor = ( {initData, onSubmit} ) => {
                 <div className="editor_section">
                     {/* 감정 */}
                     <h4> 오늘의 감정 </h4>
+                    <div className="input_wrapper emotion_list_wrapper">
+                        { emotionList.map( (it) => (<EmotionItem key={it.id} {...it} onClick={handelChangeEmotion}
+                                                                 isSelected={state.emotionId === it.id} />)
+                        ) }
+                    </div>
                 </div>
                 <div className="editor_section">
                     {/* 일기 */}
